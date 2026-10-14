@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>بطل في الرياضيات - إصدار متجر بلاي</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --play-green: #01875F;
+    --play-green-dark: #016848;
+    --play-green-light: #E6F4EA;
+    --play-blue: #0B57D0;
+    --play-blue-light: #E8F0FE;
+    --play-gold: #F59E0B;
+    --play-gold-light: #FEF3C7;
+    --play-red: #D93025;
+    --play-red-light: #FCE8E6;
+    --bg-main: #F8F9FA;
+    --surface: #FFFFFF;
+    --surface-variant: #F1F3F4;
+    --border-color: #DADCE0;
+    --text-primary: #202124;
+    --text-secondary: #5F6368;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-pill: 999px;
+    --shadow-sm: 0 1px 3px rgba(60,64,67,0.08), 0 1px 2px rgba(60,64,67,0.06);
+    --shadow-md: 0 4px 12px rgba(60,64,67,0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Cairo', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Google Play Top Header */
+  .play-header {
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 16px 8px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .header-top-row {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .app-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .play-logo-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--play-green), #00B4D8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+    box-shadow: 0 2px 6px rgba(1, 135, 95, 0.25);
+  }
+
+  .brand-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .brand-subtitle {
+    font-size: 11px;
+    color: var(--play-green);
+    font-weight: 700;
+  }
+
+  .stats-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 800;
+    border: 1px solid var(--border-color);
+    background: var(--surface-variant);
+  }
+
+  .stat-pill.hearts { background: var(--play-red-light); color: var(--play-red); border-color: #F6AEA9; }
+  .stat-pill.points { background: var(--play-blue-light); color: var(--play-blue); border-color: #D2E3FC; }
+  .stat-pill.stars  { background: var(--play-gold-light); color: #B45309; border-color: #FDE68A; }
+
+  /* Play Store Category Chips Bar */
+  .chips-bar {
+    max-width: 960px;
+    margin: 10px auto 2px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .chips-bar::-webkit-scrollbar { display: none; }
+
+  .play-chip {
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-color);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .play-chip.active {
+    background: var(--play-green-light);
+    color: var(--play-green-dark);
+    border-color: var(--play-green);
+  }
+
+  /* Main Container */
+  .main-container {
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px 14px 92px;
+    flex: 1;
+  }
+
+  /* Featured Play Store Banner */
+  .featured-banner {
+    background: linear-gradient(135deg, #01875F 0%, #00695C 60%, #004D40 100%);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .featured-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .featured-title {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .featured-desc {
+    font-size: 13px;
+    opacity: 0.92;
+    margin-bottom: 14px;
+  }
+
+  /* Play Store Section Header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 16px 2px 10px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  .section-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* Cards & Grids */
+  .play-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .stations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 12px;
+  }
+
+  .station-app-item {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .station-app-item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .station-app-item.locked {
+    opacity: 0.65;
+    background: var(--surface-variant);
+    cursor: not-allowed;
+  }
+
+  .app-icon-tile {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  }
+
+  .station-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .station-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .station-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 2px 0 6px;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 6px;
+    background: var(--surface-variant);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--play-green);
+    border-radius: var(--radius-pill);
+    transition: width 0.3s ease;
+  }
+
+  /* Buttons */
+  .btn-play {
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--play-green);
+    color: #fff;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .btn-play:hover:not(:disabled) { background: var(--play-green-dark); }
+  .btn-play:disabled {
+    background: var(--border-color);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+  }
+
+  .btn-outline {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--text-primary);
+  }
+  .btn-outline:hover { background: var(--surface-variant); }
+
+  /* Grade Circles Row */
+  .grades-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 6px 2px;
+    scrollbar-width: none;
+  }
+  .grade-pill-btn {
+    min-width: 72px;
+    padding: 10px 8px;
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .grade-pill-btn.active {
+    border-color: var(--play-green);
+    background: var(--play-green-light);
+  }
+
+  /* Question & Options */
+  .formula-box {
+    background: var(--play-green-light);
+    border: 2px solid #A8DAB5;
+    border-radius: 16px;
+    padding: 18px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--play-green-dark);
+    margin: 14px 0;
+    direction: ltr;
+  }
+
+  .option-card {
+    width: 100%;
+    text-align: right;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 2px solid var(--border-color);
+    background: var(--surface);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.12s;
+  }
+  .option-card:hover:not(:disabled) { border-color: var(--play-green); background: #F4FBF7; }
+  .option-card.correct { background: #CEEAD6; border-color: var(--play-green); color: #0D652D; }
+  .option-card.wrong   { background: var(--play-red-light); border-color: var(--play-red); color: #A50E0E; }
+  .option-card:disabled { cursor: default; }
+
+  /* Bottom Navigation (Play Store Style) */
+  .play-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+    padding: 6px 8px;
+  }
+
+  .bottom-nav-wrap {
+    max-width: 640px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+
+  .nav-tab {
+    border: none;
+    background: transparent;
+    padding: 6px 4px;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .nav-tab .nav-pill {
+    padding: 3px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 16px;
+    transition: background 0.15s;
+  }
+  .nav-tab.active {
+    color: var(--play-green-dark);
+    font-weight: 900;
+  }
+  .nav-tab.active .nav-pill {
+    background: var(--play-green-light);
+  }
+
+  pre.code-block {
+    background: #1E293B;
+    color: #F8FAFC;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    direction: ltr;
+    text-align: left;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+
+  #toast-box {
+    position: fixed;
+    bottom: 78px;
+    left: 16px;
+    z-index: 300;
+  }
+  .toast-item {
+    background: #202124;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 6px;
+    box-shadow: var(--shadow-md);
+  }
+
+  @media print {
+    .play-header, .play-bottom-nav, .no-print { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="play-header">
+  <div class="header-top-row">
+    <div class="app-brand">
+      <div class="play-logo-box">∑</div>
+      <div>
+        <div class="brand-title" id="topPlayerName">بطل في الرياضيات</div>
+        <div class="brand-subtitle" id="topGradeBadge">متجر المغامرات التعليمية • الصف 1</div>
+      </div>
+    </div>
+    <div class="stats-pills">
+      <div class="stat-pill hearts" id="heartsPill" title="المحاولات المتبقية (تتجدد كل 20 دقيقة)">❤️ 3/3</div>
+      <div class="stat-pill points" id="pointsPill">🎯 0</div>
+      <div class="stat-pill stars" id="starsPill">⭐ 0</div>
+    </div>
+  </div>
+  <div class="chips-bar" id="categoryChipsBar">
+    <button class="play-chip active" onclick="setCategoryFilter('ALL')">الكل</button>
+    <button class="play-chip" onclick="switchMainTab('DAILY')">🌟 تحدي اليوم (مرة يومياً)</button>
+    <button class="play-chip" onclick="setCategoryFilter('BASIC')">تأسيس (صف 1 - 3)</button>
+    <button class="play-chip" onclick="setCategoryFilter('ADVANCED')">متقدم (صف 4 - 7)</button>
+    <button class="play-chip" onclick="switchMainTab('DOCS')">📋 التعديلات وكود GitHub APK</button>
+  </div>
+</header>
+
+<main class="main-container" id="appView"></main>
+
+<nav class="play-bottom-nav">
+  <div class="bottom-nav-wrap">
+    <button class="nav-tab active" data-tab="STORE" onclick="switchMainTab('STORE')">
+      <span class="nav-pill">🗺️</span>
+      <span>المحطات</span>
+    </button>
+    <button class="nav-tab" data-tab="DAILY" onclick="switchMainTab('DAILY')">
+      <span class="nav-pill">🌟</span>
+      <span>تحدي اليوم</span>
+    </button>
+    <button class="nav-tab" data-tab="GRADES" onclick="switchMainTab('GRADES')">
+      <span class="nav-pill">🎒</span>
+      <span>الصفوف 1-7</span>
+    </button>
+    <button class="nav-tab" data-tab="ACHIEVEMENTS" onclick="switchMainTab('ACHIEVEMENTS')">
+      <span class="nav-pill">🏆</span>
+      <span>الأوسمة</span>
+    </button>
+    <button class="nav-tab" data-tab="DOCS" onclick="switchMainTab('DOCS')">
+      <span class="nav-pill">⚙️</span>
+      <span>الإعدادات وAPK</span>
+    </button>
+  </div>
+</nav>
+
+<div id="toast-box"></div>
+
+<script>
+// ==================== 1. CURRICULUM DATA (7 STATIONS, 35 LEVELS) ====================
+const GRADES_INFO = [
+  { num: 1, name: "الصف الأول الابتدائي", short: "الصف 1", icon: "🌱", color: "#0096C7", summary: "المقارنات، العد حتى 100، والجمع والطرح البسيط" },
+  { num: 2, name: "الصف الثاني الابتدائي", short: "الصف 2", icon: "🌿", color: "#06D6A0", summary: "المنازل العشرية، الجمع مع الحمل، والطرح مع الاستلاف" },
+  { num: 3, name: "الصف الثالث الابتدائي", short: "الصف 3", icon: "⭐", color: "#FFB703", summary: "جدول الضرب من 1 إلى 10، القسمة الأساسية، والألوف" },
+  { num: 4, name: "الصف الرابع الابتدائي", short: "الصف 4", icon: "🚀", color: "#7209B7", summary: "الضرب المتقدم، القسمة المطولة، ومدخل الكسور" },
+  { num: 5, name: "الصف الخامس الابتدائي", short: "الصف 5", icon: "📐", color: "#2A9D8F", summary: "الكسور المتكافئة، جمع وطرح الكسور، والمحيط والمساحة" },
+  { num: 6, name: "الصف السادس الابتدائي", short: "الصف 6", icon: "🏆", color: "#FF70A6", summary: "النسب المئوية، أولويات العمليات، والدائرة والحجوم" },
+  { num: 7, name: "الصف السابع الإعدادي", short: "الصف 7", icon: "⚡", color: "#4A4E69", summary: "الأعداد الصحيحة، المعادلات الجبرية، الإحصاء، والأسس" }
+];
+
+const STATIONS = [
+  { id: 1, title: "المقارنات والقيم المكانية", subtitle: "الأعداد والمنازل والترتيب", grades: "الصف 1 - 2", group: "BASIC", color: "#0096C7", icon: "🔢" },
+  { id: 2, title: "الجمع والطرح الذكي", subtitle: "الحمل والاستلاف والحساب الذهني", grades: "الصف 2 - 3", group: "BASIC", color: "#01875F", icon: "➕" },
+  { id: 3, title: "جدول الضرب والقسمة", subtitle: "إتقان الضرب والقسمة السريعة", grades: "الصف 3 - 4", group: "BASIC", color: "#F59E0B", icon: "✖️" },
+  { id: 4, title: "عالم الكسور الممتع", subtitle: "تبسيط، توحيد مقامات، وعمليات الكسور", grades: "الصف 4 - 6", group: "ADVANCED", color: "#7209B7", icon: "½" },
+  { id: 5, title: "ألغاز وتحديات العباقرة", subtitle: "الأنماط، أولويات العمليات، والنسب المئوية", grades: "الصف 6 - 7", group: "ADVANCED", color: "#E11D48", icon: "🏆" },
+  { id: 6, title: "الهندسة والقياس والمساحة", subtitle: "الزوايا، المضلعات، الدائرة، والحجوم", grades: "الصف 5 - 6", group: "ADVANCED", color: "#2A9D8F", icon: "📐" },
+  { id: 7, title: "الجبر والمعادلات والإحصاء", subtitle: "الأعداد الصحيحة، قيمة س، والأسس", grades: "الصف 6 - 7", group: "ADVANCED", color: "#4A4E69", icon: "⚡" }
+];
+
+const LEVELS = [
+  // Station 1
+  { levelId: 1, stationId: 1, title: "مقارنة الأعداد حتى 20", skill: "أكبر (>) أو أصغر (<) أو يساوي (=)", qType: "COMP_20" },
+  { levelId: 2, stationId: 1, title: "منازل الآحاد والعشرات", skill: "القيمة المكانية للأعداد حتى 99", qType: "PLACE_TENS" },
+  { levelId: 3, stationId: 1, title: "الترتيب ومنزلة المئات", skill: "الأعداد حتى 999 وترتيبها", qType: "PLACE_HUNDREDS" },
+  { levelId: 4, stationId: 1, title: "منزلة الآلاف والأعداد الكبيرة", skill: "القيمة المكانية حتى 9999", qType: "PLACE_THOUSANDS" },
+  { levelId: 5, stationId: 1, title: "الأنماط والقفز العددي", skill: "إكمال المتتاليات العددية", qType: "PATTERNS_BASIC" },
+  // Station 2
+  { levelId: 6, stationId: 2, title: "الجمع والطرح البسيط", skill: "عمليات سريعة بدون حمل", qType: "ADD_SUB_SIMPLE" },
+  { levelId: 7, stationId: 2, title: "الجمع العمودي مع الحمل", skill: "جمع عددين مع إعادة التجميع", qType: "ADD_CARRY" },
+  { levelId: 8, stationId: 2, title: "الطرح العمودي مع الاستلاف", skill: "طرح الأعداد مع الاستلاف من العشرات", qType: "SUB_BORROW" },
+  { levelId: 9, stationId: 2, title: "الحساب الذهني ومضاعفات 100", skill: "جمع وطرح المئات بسرعة", qType: "MENTAL_100" },
+  { levelId: 10, stationId: 2, title: "العمليات المركبة (جمع وطرح)", skill: "مسائل تجمع العمليتين معاً", qType: "COMBINED_ADD_SUB" },
+  // Station 3
+  { levelId: 11, stationId: 3, title: "جدول الضرب التأسيسي (2 - 5)", skill: "حفظ وتطبيق جداول 2 و3 و4 و5", qType: "MULT_2_5" },
+  { levelId: 12, stationId: 3, title: "جدول الضرب المتقدم (6 - 10)", skill: "إتقان جداول 6 و7 و8 و9 و10", qType: "MULT_6_10" },
+  { levelId: 13, stationId: 3, title: "مفهوم القسمة الأساسية", skill: "القسمة كعملية عكسية للضرب", qType: "DIV_BASIC" },
+  { levelId: 14, stationId: 3, title: "ضرب الأعداد من منزلتين", skill: "الضرب السريع في 10 و11 و12 و25", qType: "MULT_2DIGIT" },
+  { levelId: 15, stationId: 3, title: "القسمة المطولة والباقي", skill: "إيجاد خارج القسمة والباقي", qType: "DIV_REMAINDER" },
+  // Station 4
+  { levelId: 16, stationId: 4, title: "تمثيل الكسور وقراءتها", skill: "البسط والمقام ومقارنة الكسور", qType: "FRAC_BASIC" },
+  { levelId: 17, stationId: 4, title: "الكسور المتكافئة والتبسيط", skill: "إيجاد الكسر المكافئ في أبسط صورة", qType: "FRAC_EQUIV" },
+  { levelId: 18, stationId: 4, title: "توحيد المقامات (م.م.أ)", skill: "إيجاد المقام المشترك الأصغر", qType: "FRAC_LCM" },
+  { levelId: 19, stationId: 4, title: "جمع وطرح الكسور", skill: "جمع وطرح الكسور الموحدة والمختلفة", qType: "FRAC_ADD_SUB" },
+  { levelId: 20, stationId: 4, title: "ضرب وقسمة الكسور", skill: "ضرب البسط في البسط والمقام في المقام", qType: "FRAC_MULT" },
+  // Station 5
+  { levelId: 21, stationId: 5, title: "المتتاليات والأنماط الذكية", skill: "اكتشاف قاعدة النمط الهندسي والعددي", qType: "PUZZLE_SEQ" },
+  { levelId: 22, stationId: 5, title: "أولويات العمليات الحسابية", skill: "الأقواس ثم الضرب والقسمة ثم الجمع", qType: "ORDER_OPS" },
+  { levelId: 23, stationId: 5, title: "المسائل الحياتية والمنطقية", skill: "تحويل المسألة اللفظية إلى معادلة", qType: "WORD_PROBLEMS" },
+  { levelId: 24, stationId: 5, title: "النسب المئوية (10%، 25%، 50%)", skill: "حساب النسب المئوية والخصومات", qType: "PERCENTAGES" },
+  { levelId: 25, stationId: 5, title: "تحدي العباقرة الشامل", skill: "مراجعة شاملة للمهارات المتقدمة", qType: "MASTER_MIX" },
+  // Station 6
+  { levelId: 26, stationId: 6, title: "الزوايا ومجموع زوايا المثلث", skill: "أنواع الزوايا وقاعدة 180 درجة", qType: "GEO_ANGLES" },
+  { levelId: 27, stationId: 6, title: "محيط ومساحة المربع والمستطيل", skill: "تطبيق قوانين المحيط والمساحة", qType: "GEO_RECT" },
+  { levelId: 28, stationId: 6, title: "مساحة المثلث ومتوازي الأضلاع", skill: "نصف القاعدة في الارتفاع", qType: "GEO_TRIANGLE" },
+  { levelId: 29, stationId: 6, title: "الدائرة: القطر والمحيط", skill: "استخدام النسبة التقريبية ط = 3.14", qType: "GEO_CIRCLE" },
+  { levelId: 30, stationId: 6, title: "الحجوم ووحدات القياس", skill: "حجم المكعب والتحويل بين الوحدات", qType: "GEO_VOLUME" },
+  // Station 7
+  { levelId: 31, stationId: 7, title: "الأعداد الصحيحة والقيمة المطلقة", skill: "الجمع والطرح للأعداد السالبة والموجبة", qType: "ALG_INTEGERS" },
+  { levelId: 32, stationId: 7, title: "حل المعادلات الجبرية (قيمة س)", skill: "إيجاد قيمة المجهول س في المعادلة", qType: "ALG_EQUATIONS" },
+  { levelId: 33, stationId: 7, title: "النسبة والتناسب", skill: "تبسيط النسب والضرب التبادلي", qType: "ALG_RATIO" },
+  { levelId: 34, stationId: 7, title: "الإحصاء: المتوسط والوسيط والمنوال", skill: "تحليل البيانات وحساب المتوسط الحسابي", qType: "ALG_STATS" },
+  { levelId: 35, stationId: 7, title: "الأسس والجذور التربيعية", skill: "مربعات الأعداد والجذر التربيعي", qType: "ALG_POWERS" }
+];
+
+const ACHIEVEMENTS_LIST = [
+  { id: "first_step", title: "الخطوة الأولى", desc: "إتمام المستوى الأول بنجاح", icon: "⭐" },
+  { id: "perfect_stars", title: "النجم الكامل", desc: "الحصول على 3 نجوم كاملة في أي مستوى", icon: "🌟" },
+  { id: "addition_master", title: "بطل الجمع والطرح", desc: "إتمام المحطة الثانية بنجاح", icon: "🌸" },
+  { id: "multiplication_hero", title: "فارس جدول الضرب", desc: "إتمام المحطة الثالثة بنجاح", icon: "🎈" },
+  { id: "fractions_wizard", title: "خبير الكسور", desc: "إتمام المحطة الرابعة بنجاح", icon: "📘" },
+  { id: "puzzle_master", title: "عبقري الألغاز", desc: "إتمام المحطة الخامسة بنجاح", icon: "💡" },
+  { id: "crown_genius", title: "تاج عبقري الرياضيات", desc: "إتمام جميع المستويات الـ 35", icon: "🏆" }
+];
+
+// ==================== 2. PERSISTENCE & DAILY CHALLENGE GLOBAL LOCK ====================
+const STORAGE_KEY = "math_genius_playstore_v2_state";
+
+function getTodayKey() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+let state = {
+  playerName: "بطل الرياضيات",
+  selectedGrade: 1,
+  difficulty: "MEDIUM",
+  useEasternDigits: false,
+  totalScore: 0,
+  totalStars: 0,
+  remainingAttempts: 3,
+  lastAttemptLostTimestamp: 0,
+  unlockedLevels: [1],
+  completedLevels: {}, // levelId -> { stars, bestScore, accuracy }
+  unlockedAchievements: [],
+  // STRICT GLOBAL DAILY CHALLENGE LOCK ACROSS ALL GRADES
+  dailyChallenge: {
+    lastCompletedDateKey: null, // "YYYY-MM-DD" - Once set to todayKey, locked for ALL grades!
+    lockedGradeNumber: null,    // Grade in which today's challenge was answered
+    selectedOption: null,       // Option text chosen today
+    wasCorrect: false,          // Whether today's answer was correct
+    streakDays: 0
+  }
+};
+
+let currentMainTab = "STORE";
+let categoryFilter = "ALL";
+let activeStationId = null;
+let activeSession = null; // For level challenge
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state = { ...state, ...parsed, dailyChallenge: { ...state.dailyChallenge, ...(parsed.dailyChallenge || {}) } };
+    }
+  } catch (e) { console.error(e); }
+  checkHeartRegen();
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) { console.error(e); }
+}
+
+function fmtNum(val) {
+  const str = String(val);
+  if (!state.useEasternDigits) return str;
+  const eastern = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  return str.replace(/[0-9]/g, ch => eastern[ch.charCodeAt(0) - 48]);
+}
+
+function showToast(msg) {
+  const box = document.getElementById('toast-box');
+  const el = document.createElement('div');
+  el.className = 'toast-item';
+  el.textContent = msg;
+  box.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+// ==================== 3. HEARTS REGENERATION (3 ATTEMPTS / 20 MIN) ====================
+function checkHeartRegen() {
+  if (state.remainingAttempts >= 3) {
+    state.remainingAttempts = 3;
+    state.lastAttemptLostTimestamp = 0;
+    return "";
+  }
+  const now = Date.now();
+  const regenMs = 20 * 60 * 1000;
+  const elapsed = now - (state.lastAttemptLostTimestamp || now);
+  if (elapsed >= regenMs) {
+    const restored = Math.floor(elapsed / regenMs);
+    state.remainingAttempts = Math.min(3, state.remainingAttempts + restored);
+    state.lastAttemptLostTimestamp = state.remainingAttempts >= 3 ? 0 : state.lastAttemptLostTimestamp + restored * regenMs;
+    saveState();
+  }
+  if (state.remainingAttempts < 3 && state.lastAttemptLostTimestamp > 0) {
+    const rem = Math.max(0, regenMs - ((now - state.lastAttemptLostTimestamp) % regenMs));
+    const mins = String(Math.floor(rem / 60000)).padStart(2, '0');
+    const secs = String(Math.floor((rem % 60000) / 1000)).padStart(2, '0');
+    return `${mins}:${secs}`;
+  }
+  return "";
+}
+
+setInterval(() => {
+  const timerStr = checkHeartRegen();
+  updateTopBar(timerStr);
+}, 1000);
+
+// ==================== 4. DETERMINISTIC DAILY CHALLENGE GENERATOR ====================
+function getDailyProblemForDate(dateKey, gradeNum) {
+  // Deterministic seed based on dateKey + gradeNum
+  let hash = 0;
+  const seedStr = `${dateKey}_G${gradeNum}`;
+  for (let i = 0; i < seedStr.length; i++) {
+    hash = ((hash << 5) - hash) + seedStr.charCodeAt(i);
+    hash |= 0;
+  }
+  const absHash = Math.abs(hash);
+
+  let qText = "", formula = "", correct = "", options = [], explanation = "";
+  if (gradeNum === 1) {
+    const a = (absHash % 10) + 5;
+    const b = ((absHash >> 3) % 5) + 2;
+    const ans = a + b;
+    qText = "تحدي الصف الأول: ما هو ناتج عملية الجمع الآتية؟";
+    formula = `${a} + ${b} = ?`;
+    correct = String(ans);
+    options = [String(ans), String(ans + 1), String(ans - 1), String(ans + 2)];
+    explanation = `نجمع ${a} مع ${b} فيكون الناتج الصحيح ${ans}.`;
+  } else if (gradeNum === 2) {
+    const a = (absHash % 40) + 25;
+    const b = ((absHash >> 2) % 15) + 10;
+    const ans = a - b;
+    qText = "تحدي الصف الثاني: احسب ناتج عملية الطرح الذهني:";
+    formula = `${a} - ${b} = ?`;
+    correct = String(ans);
+    options = [String(ans), String(ans + 10), String(ans - 2), String(ans + 3)];
+    explanation = `بطرح الآحاد والعشرات: ${a} - ${b} = ${ans}.`;
+  } else if (gradeNum === 3) {
+    const a = (absHash % 7) + 3;
+    const b = ((absHash >> 3) % 7) + 3;
+    const ans = a * b;
+    qText = "تحدي الصف الثالث: كم يساوي حاصل الضرب؟";
+    formula = `${a} × ${b} = ?`;
+    correct = String(ans);
+    options = [String(ans), String(ans + a), String(ans - b), String(ans + 4)];
+    explanation = `من جدول الضرب: ${a} × ${b} = ${ans}.`;
+  } else if (gradeNum === 4) {
+    const a = (absHash % 15) + 12;
+    const b = ((absHash >> 2) % 5) + 4;
+    const ans = a * b;
+    qText = "تحدي الصف الرابع: أوجد حاصل الضرب بدقة:";
+    formula = `${a} × ${b} = ?`;
+    correct = String(ans);
+    options = [String(ans), String(ans + 10), String(ans - 10), String(ans + 2)];
+    explanation = `نضرب الآحاد ثم العشرات: ${a} × ${b} = ${ans}.`;
+  } else if (gradeNum === 5) {
+    const den = 7;
+    const n1 = (absHash % 3) + 1;
+    const n2 = ((absHash >> 2) % 2) + 2;
+    const sum = n1 + n2;
+    qText = "تحدي الصف الخامس: اجمع الكسرين المتشابهين في المقام:";
+    formula = `${n1}/${den} + ${n2}/${den} = ?`;
+    correct = `${sum}/${den}`;
+    options = [`${sum}/${den}`, `${sum + 1}/${den}`, `${sum}/${den * 2}`, `1/${den}`];
+    explanation = `المقام موحد (${den})، نجمع البسطين: ${n1} + ${n2} = ${sum}/${den}.`;
+  } else if (gradeNum === 6) {
+    const a = (absHash % 6) + 4;
+    const b = ((absHash >> 2) % 5) + 3;
+    const c = ((absHash >> 4) % 4) + 2;
+    const ans = a + (b * c);
+    qText = "تحدي الصف السادس: راعِ أولويات العمليات الحسابية:";
+    formula = `${a} + ${b} × ${c} = ?`;
+    correct = String(ans);
+    options = [String(ans), String((a + b) * c), String(ans + 4), String(ans - 3)];
+    explanation = `الأولوية للضرب أولاً (${b} × ${c} = ${b * c}) ثم نجمع ${a} فيكون الناتج ${ans}.`;
+  } else {
+    const x = (absHash % 8) + 3;
+    const coeff = ((absHash >> 2) % 4) + 2;
+    const k = ((absHash >> 4) % 7) + 2;
+    const total = coeff * x + k;
+    qText = "تحدي الصف السابع: أوجد قيمة المجهول (س) في المعادلة:";
+    formula = `${coeff} س + ${k} = ${total}`;
+    correct = String(x);
+    options = [String(x), String(x + 1), String(x - 1), String(x + 3)];
+    explanation = `نطرح ${k} من الطرفين (${coeff} س = ${total - k}) ثم نقسم على ${coeff} فتكون س = ${x}.`;
+  }
+
+  // Deterministic shuffle of options
+  const rotated = options.map((opt, idx) => ({ opt, sortKey: (absHash + idx * 31) % 101 }))
+                         .sort((a, b) => a.sortKey - b.sortKey)
+                         .map(x => x.opt);
+
+  return { dateKey, gradeNum, qText, formula, correct, options: rotated, explanation };
+}
+
+// ==================== 5. DYNAMIC LEVEL QUESTION GENERATOR ====================
+function generateQuestionsForLevel(levelId) {
+  const list = [];
+  for (let i = 0; i < 5; i++) {
+    const seed = levelId * 100 + i + Math.floor(Math.random() * 50);
+    let qText = "", formula = "", correct = "", opts = [], hint = "";
+
+    if (levelId <= 5) {
+      const a = Math.floor(Math.random() * 40) + 10;
+      const b = Math.floor(Math.random() * 40) + 10;
+      if (levelId === 1) {
+        correct = a > b ? ">" : (a < b ? "<" : "=");
+        qText = "اختر الإشارة المناسبة للمقارنة بين العددين:";
+        formula = `${a} [ ? ] ${b}`;
+        opts = [">", "<", "=", "+"];
+        hint = `قارن بين ${a} و ${b}: الإشارة الصحيحة هي ${correct}`;
+      } else {
+        const tens = Math.floor(a / 10) * 10;
+        correct = String(tens);
+        qText = `ما القيمة المكانية لرقم العشرات في العدد ${a}؟`;
+        formula = `${a}`;
+        opts = [String(tens), String(Math.floor(a / 10)), String(a % 10), String(tens + 10)];
+        hint = `رقم العشرات في ${a} قيمته المكانية هي ${tens}.`;
+      }
+    } else if (levelId <= 10) {
+      const a = Math.floor(Math.random() * 45) + 18;
+      const b = Math.floor(Math.random() * 25) + 12;
+      const isAdd = (i % 2 === 0);
+      const ans = isAdd ? a + b : a - b;
+      correct = String(ans);
+      qText = isAdd ? "أوجد ناتج عملية الجمع الآتية:" : "أوجد ناتج عملية الطرح الآتية:";
+      formula = `${a} ${isAdd ? '+' : '-'} ${b} = ?`;
+      opts = [String(ans), String(ans + 10), String(ans - 1), String(ans + 2)];
+      hint = `احسب الآحاد ثم العشرات: النتيجة هي ${ans}.`;
+    } else if (levelId <= 15) {
+      const a = Math.floor(Math.random() * 8) + 2;
+      const b = Math.floor(Math.random() * 8) + 3;
+      const prod = a * b;
+      if (levelId === 13 || levelId === 15) {
+        correct = String(a);
+        qText = "أوجد خارج القسمة الصحيح:";
+        formula = `${prod} ÷ ${b} = ?`;
+        opts = [String(a), String(a + 1), String(Math.max(1, a - 1)), String(a + 2)];
+        hint = `لأن ${a} × ${b} = ${prod} فإن ${prod} ÷ ${b} = ${a}.`;
+      } else {
+        correct = String(prod);
+        qText = "أوجد حاصل الضرب السريع:";
+        formula = `${a} × ${b} = ?`;
+        opts = [String(prod), String(prod + a), String(prod - b), String(prod + 3)];
+        hint = `من جدول الضرب: ${a} × ${b} = ${prod}.`;
+      }
+    } else if (levelId <= 20) {
+      const den = [5, 7, 8, 9][i % 4];
+      const n1 = 1 + (i % 3);
+      const n2 = 2;
+      const sum = n1 + n2;
+      correct = `${sum}/${den}`;
+      qText = "اجمع الكسرين ذوي المقام الموحد:";
+      formula = `${n1}/${den} + ${n2}/${den} = ?`;
+      opts = [`${sum}/${den}`, `${sum + 1}/${den}`, `${sum}/${den * 2}`, `${n1}/${den}`];
+      hint = `المقام موحد (${den})، نجمع البسطين: ${n1} + ${n2} = ${sum}/${den}.`;
+    } else if (levelId <= 25) {
+      const a = Math.floor(Math.random() * 6) + 3;
+      const b = Math.floor(Math.random() * 5) + 2;
+      const c = Math.floor(Math.random() * 4) + 2;
+      const ans = a + b * c;
+      correct = String(ans);
+      qText = "احسب قيمة المقدار بمراعاة أولويات العمليات:";
+      formula = `${a} + ${b} × ${c} = ?`;
+      opts = [String(ans), String((a + b) * c), String(ans + 3), String(ans - 2)];
+      hint = `الضرب يسبق الجمع: ${b} × ${c} = ${b * c}، ثم نضيف ${a} = ${ans}.`;
+    } else if (levelId <= 30) {
+      const side = Math.floor(Math.random() * 7) + 4;
+      const area = side * side;
+      correct = `${area} سم²`;
+      qText = `مربع طول ضلعه ${side} سم، ما مساحته؟`;
+      formula = `${side} × ${side} = ?`;
+      opts = [`${area} سم²`, `${side * 4} سم²`, `${area + 4} سم²`, `${area - 2} سم²`];
+      hint = `مساحة المربع = الضلع × نفسه = ${side} × ${side} = ${area} سم².`;
+    } else {
+      const x = Math.floor(Math.random() * 9) + 3;
+      const k = Math.floor(Math.random() * 8) + 4;
+      const total = x + k;
+      correct = String(x);
+      qText = "حل المعادلة الجبرية لإيجاد قيمة (س):";
+      formula = `س + ${k} = ${total}`;
+      opts = [String(x), String(x + 2), String(x - 1), String(total + k)];
+      hint = `نطرح ${k} من الطرفين: س = ${total} - ${k} = ${x}.`;
+    }
+
+    const uniqueOpts = Array.from(new Set([correct, ...opts]));
+    while (uniqueOpts.length < 4) uniqueOpts.push(String(Math.floor(Math.random() * 50) + 51));
+    const shuffled = uniqueOpts.slice(0, 4).sort(() => Math.random() - 0.5);
+    list.push({ qText, formula, correct, options: shuffled, hint });
+  }
+  return list;
+}
+
+// ==================== 6. UI RENDERING ENGINE ====================
+function updateTopBar(timerStr = "") {
+  const gradeObj = GRADES_INFO.find(g => g.num === state.selectedGrade) || GRADES_INFO[0];
+  document.getElementById('topPlayerName').textContent = state.playerName;
+  document.getElementById('topGradeBadge').textContent = `متجر المغامرات التعليمية • ${gradeObj.short}`;
+  document.getElementById('heartsPill').textContent = state.remainingAttempts < 3 && timerStr
+    ? `❤️ ${fmtNum(state.remainingAttempts)}/3 (${timerStr})`
+    : `❤️ ${fmtNum(state.remainingAttempts)}/3`;
+  document.getElementById('pointsPill').textContent = `🎯 ${fmtNum(state.totalScore)}`;
+  document.getElementById('starsPill').textContent = `⭐ ${fmtNum(state.totalStars)}`;
+}
+
+function switchMainTab(tab) {
+  currentMainTab = tab;
+  activeStationId = null;
+  activeSession = null;
+  document.querySelectorAll('.nav-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  renderApp();
+}
+
+function setCategoryFilter(filter) {
+  categoryFilter = filter;
+  currentMainTab = "STORE";
+  activeStationId = null;
+  activeSession = null;
+  renderApp();
+}
+
+function renderApp() {
+  updateTopBar(checkHeartRegen());
+  const container = document.getElementById('appView');
+
+  if (activeSession) {
+    container.innerHTML = renderChallengeSession();
+    return;
+  }
+  if (activeStationId) {
+    container.innerHTML = renderStationLevels(activeStationId);
+    return;
+  }
+
+  if (currentMainTab === "STORE") container.innerHTML = renderStoreHome();
+  else if (currentMainTab === "DAILY") container.innerHTML = renderDailyChallengeTab();
+  else if (currentMainTab === "GRADES") container.innerHTML = renderGradesTab();
+  else if (currentMainTab === "ACHIEVEMENTS") container.innerHTML = renderAchievementsTab();
+  else if (currentMainTab === "DOCS") container.innerHTML = renderDocsAndSettingsTab();
+}
+
+function renderStoreHome() {
+  const todayKey = getTodayKey();
+  const isDoneToday = state.dailyChallenge.lastCompletedDateKey === todayKey;
+  const gradeObj = GRADES_INFO.find(g => g.num === state.selectedGrade) || GRADES_INFO[0];
+  const filteredStations = STATIONS.filter(s => categoryFilter === "ALL" || s.group === categoryFilter);
+
+  return `
+    <!-- Featured Play Store Hero Banner -->
+    <div class="featured-banner">
+      <div class="featured-tag">🌟 الحدث اليومي المميز • متاح مرة واحدة يومياً لكل الصفوف</div>
+      <div class="featured-title">تحدي اليوم الشامل (${gradeObj.short})</div>
+      <div class="featured-desc">
+        ${isDoneToday
+          ? `✅ أحسنت! لقد أتممت تحدي اليوم (${todayKey}) بنجاح. يُفتح التحدي الجديد غداً تلقائياً لجميع الصفوف.`
+          : `اختبر ذكاءك في مسألة اليوم واحصل فوراً على +50 نقطة و 3 نجوم ذهبية وسلسلة إنجاز يومية!`}
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn-play" style="background:#fff;color:var(--play-green-dark);" onclick="switchMainTab('DAILY')">
+          ${isDoneToday ? '🔒 عرض إجابة اليوم المنجزة' : '🚀 ابدأ تحدي اليوم (+50 نقطة)'}
+        </button>
+        <span style="font-size:12px;font-weight:800;background:rgba(0,0,0,0.2);padding:5px 12px;border-radius:99px;">
+          🔥 السلسلة: ${fmtNum(state.dailyChallenge.streakDays)} أيام
+        </span>
+      </div>
+    </div>
+
+    <!-- Quick Grade Bar -->
+    <div class="play-card">
+      <div class="section-header" style="margin-top:0;">
+        <div>
+          <div class="section-title">🎒 اختيار الصف الدراسي السريع</div>
+          <div class="section-subtitle">تغيير الصف يضبط مستوى المسائل، بينما يبقى تحدي اليوم موحداً لليوم</div>
+        </div>
+      </div>
+      <div class="grades-row">
+        ${GRADES_INFO.map(g => `
+          <div class="grade-pill-btn ${g.num === state.selectedGrade ? 'active' : ''}" onclick="selectGrade(${g.num})">
+            <span style="font-size:20px;">${g.icon}</span>
+            <span style="font-size:12px;font-weight:800;">${g.short}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- Stations Play Store List -->
+    <div class="section-header">
+      <div>
+        <div class="section-title">🗺️ محطات المغامرة التعليمية (${fmtNum(filteredStations.length)})</div>
+        <div class="section-subtitle">تصميم سريع ومباشر بدون شاشات وسيطة</div>
+      </div>
+    </div>
+
+    <div class="stations-grid">
+      ${filteredStations.map((st, idx) => {
+        const stLevels = LEVELS.filter(l => l.stationId === st.id);
+        const isUnlocked = st.id === 1 || stLevels.some(l => state.unlockedLevels.includes(l.levelId));
+        const completedCount = stLevels.filter(l => state.completedLevels[l.levelId]).length;
+        const starsEarned = stLevels.reduce((acc, l) => acc + (state.completedLevels[l.levelId]?.stars || 0), 0);
+        const pct = Math.round((completedCount / stLevels.length) * 100);
+
+        return `
+          <div class="station-app-item ${isUnlocked ? '' : 'locked'}" onclick="${isUnlocked ? `openStation(${st.id})` : `showToast('أكمل المحطة السابقة لفتح هذه المحطة 🔒')`}">
+            <div class="app-icon-tile" style="background:${isUnlocked ? st.color : '#9AA0A6'};">
+              ${isUnlocked ? st.icon : '🔒'}
+            </div>
+            <div class="station-info">
+              <div class="station-name">${st.title}</div>
+              <div class="station-meta">${st.grades} • ⭐ ${fmtNum(starsEarned)}/15</div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${pct}%;background:${st.color};"></div>
+              </div>
+            </div>
+            <button class="btn-play" ${isUnlocked ? '' : 'disabled'}>
+              ${isUnlocked ? 'العب' : 'مغلق'}
+            </button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function openStation(stationId) {
+  activeStationId = stationId;
+  renderApp();
+}
+
+function renderStationLevels(stationId) {
+  const st = STATIONS.find(s => s.id === stationId);
+  const stLevels = LEVELS.filter(l => l.stationId === stationId);
+
+  return `
+    <div class="play-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="btn-outline" onclick="activeStationId=null; renderApp();">➡️ رجوع</button>
+        <div>
+          <div style="font-size:17px;font-weight:900;">${st.icon} ${st.title}</div>
+          <div style="font-size:12px;color:var(--text-secondary);">${st.subtitle} (${st.grades})</div>
+        </div>
+      </div>
+    </div>
+
+    ${stLevels.map((lvl, idx) => {
+      const isUnlocked = state.unlockedLevels.includes(lvl.levelId) || lvl.levelId === 1;
+      const rec = state.completedLevels[lvl.levelId];
+      const stars = rec ? rec.stars : 0;
+      return `
+        <div class="play-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;opacity:${isUnlocked ? '1' : '0.6'};">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="app-icon-tile" style="width:48px;height:48px;font-size:18px;font-weight:900;background:${isUnlocked ? st.color : '#9AA0A6'};">
+              ${isUnlocked ? fmtNum(idx + 1) : '🔒'}
+            </div>
+            <div>
+              <div style="font-size:15px;font-weight:800;">${lvl.title}</div>
+              <div style="font-size:12px;color:var(--text-secondary);">${lvl.skill}</div>
+              <div style="font-size:13px;margin-top:4px;color:#F59E0B;">
+                ${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}
+              </div>
+            </div>
+          </div>
+          <button class="btn-play" ${isUnlocked ? '' : 'disabled'} onclick="startLevelChallenge(${lvl.levelId})">
+            ${isUnlocked ? 'ابدأ التحدي ▶' : 'مغلق'}
+          </button>
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+// ==================== 7. LEVEL CHALLENGE SESSION ====================
+function startLevelChallenge(levelId) {
+  if (state.remainingAttempts <= 0) {
+    showToast("انتهت المحاولات (القلوب)! انتظر تجدد القلوب كل 20 دقيقة ⏳");
+    return;
+  }
+  const lvl = LEVELS.find(l => l.levelId === levelId);
+  activeSession = {
+    level: lvl,
+    questions: generateQuestionsForLevel(levelId),
+    currentIndex: 0,
+    selectedOpt: null,
+    isSubmitted: false,
+    isCorrect: false,
+    correctCount: 0,
+    scoreEarned: 0,
+    isCompleted: false
+  };
+  renderApp();
+}
+
+function renderChallengeSession() {
+  const s = activeSession;
+  if (s.isCompleted) {
+    const accuracy = Math.round((s.correctCount / s.questions.length) * 100);
+    const stars = accuracy === 100 ? 3 : (accuracy >= 80 ? 2 : (accuracy >= 60 ? 1 : 0));
+    return `
+      <div class="play-card" style="text-align:center;padding:28px 18px;">
+        <div style="font-size:46px;margin-bottom:8px;">${stars >= 2 ? '🏆' : '🌟'}</div>
+        <div style="font-size:20px;font-weight:900;color:var(--play-green-dark);">
+          ${stars >= 2 ? 'أحسنت! اجتزت المستوى بنجاح' : 'محاولة جيدة! حاول مجدداً لتحصل على نجمتين على الأقل'}
+        </div>
+        <div style="font-size:28px;margin:12px 0;">${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>
+        <div style="font-size:14px;color:var(--text-secondary);margin-bottom:18px;">
+          الإجابات الصحيحة: <b>${fmtNum(s.correctCount)} من ${fmtNum(s.questions.length)}</b> • النقاط المكتسبة: <b>+${fmtNum(s.scoreEarned)}</b>
+        </div>
+        <div style="display:flex;justify-content:center;gap:10px;">
+          <button class="btn-outline" onclick="startLevelChallenge(${s.level.levelId})">🔄 إعادة المستوى</button>
+          <button class="btn-play" onclick="activeSession=null; renderApp();">🗺️ متابعة المحطة</button>
+        </div>
+      </div>
+    `;
+  }
+
+  const q = s.questions[s.currentIndex];
+  const progressPct = Math.round(((s.currentIndex + 1) / s.questions.length) * 100);
+
+  return `
+    <div class="play-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <button class="btn-outline" onclick="activeSession=null; renderApp();">✖ إنهاء</button>
+        <div style="font-weight:800;font-size:14px;">${s.level.title} • سؤال ${fmtNum(s.currentIndex + 1)}/${fmtNum(s.questions.length)}</div>
+        <div style="font-weight:800;color:var(--play-red);">❤️ ${fmtNum(state.remainingAttempts)}/3</div>
+      </div>
+      <div class="progress-track" style="margin-bottom:16px;">
+        <div class="progress-fill" style="width:${progressPct}%;"></div>
+      </div>
+
+      <div style="font-size:17px;font-weight:800;text-align:center;margin-bottom:10px;">${q.qText}</div>
+      <div class="formula-box">${fmtNum(q.formula)}</div>
+
+      <div style="margin-top:14px;">
+        ${q.options.map(opt => {
+          let cls = "option-card";
+          if (s.isSubmitted) {
+            if (opt === q.correct) cls += " correct";
+            else if (opt === s.selectedOpt) cls += " wrong";
+          }
+          return `
+            <button class="${cls}" ${s.isSubmitted ? 'disabled' : ''} onclick="submitChallengeOption('${opt.replace(/'/g, "\\'")}')">
+              <span>${fmtNum(opt)}</span>
+              <span>${s.isSubmitted && opt === q.correct ? '✅' : (s.isSubmitted && opt === s.selectedOpt ? '✖' : '')}</span>
+            </button>
+          `;
+        }).join('')}
+      </div>
+
+      ${s.isSubmitted ? `
+        <div style="background:var(--play-blue-light);border-radius:12px;padding:12px;margin-top:10px;font-size:13px;color:var(--play-blue);font-weight:700;">
+          💡 ${q.hint}
+        </div>
+        <button class="btn-play" style="width:100%;margin-top:12px;padding:12px;" onclick="nextChallengeQuestion()">
+          السؤال التالي ⬅️
+        </button>
+      ` : ''}
+    </div>
+  `;
+}
+
+function submitChallengeOption(opt) {
+  const s = activeSession;
+  if (!s || s.isSubmitted) return;
+  const q = s.questions[s.currentIndex];
+  s.selectedOpt = opt;
+  s.isSubmitted = true;
+  s.isCorrect = (opt === q.correct);
+
+  if (s.isCorrect) {
+    s.correctCount++;
+    s.scoreEarned += 15;
+  } else {
+    state.remainingAttempts = Math.max(0, state.remainingAttempts - 1);
+    if (state.lastAttemptLostTimestamp === 0) state.lastAttemptLostTimestamp = Date.now();
+    saveState();
+  }
+  renderApp();
+}
+
+function nextChallengeQuestion() {
+  const s = activeSession;
+  if (!s) return;
+  if (state.remainingAttempts <= 0) {
+    showToast("انتهت القلوب المتاحة! انتظر تجدد المحاولات ⏳");
+    activeSession = null;
+    renderApp();
+    return;
+  }
+  if (s.currentIndex + 1 < s.questions.length) {
+    s.currentIndex++;
+    s.selectedOpt = null;
+    s.isSubmitted = false;
+    s.isCorrect = false;
+  } else {
+    s.isCompleted = true;
+    const accuracy = Math.round((s.correctCount / s.questions.length) * 100);
+    const stars = accuracy === 100 ? 3 : (accuracy >= 80 ? 2 : (accuracy >= 60 ? 1 : 0));
+    const prev = state.completedLevels[s.level.levelId] || { stars: 0, bestScore: 0 };
+    const starsDelta = Math.max(0, stars - prev.stars);
+    state.totalScore += s.scoreEarned;
+    state.totalStars += starsDelta;
+    state.completedLevels[s.level.levelId] = {
+      stars: Math.max(prev.stars, stars),
+      bestScore: Math.max(prev.bestScore, s.scoreEarned),
+      accuracy
+    };
+    if (accuracy >= 80 && s.level.levelId < 35 && !state.unlockedLevels.includes(s.level.levelId + 1)) {
+      state.unlockedLevels.push(s.level.levelId + 1);
+    }
+    checkAchievementsUnlock(s.level.levelId, stars, accuracy);
+    saveState();
+  }
+  renderApp();
+}
+
+function checkAchievementsUnlock(levelId, stars, accuracy) {
+  const unlock = (id) => { if (!state.unlockedAchievements.includes(id)) state.unlockedAchievements.push(id); };
+  if (levelId === 1 && accuracy >= 80) unlock("first_step");
+  if (stars === 3) unlock("perfect_stars");
+  if (levelId === 10 && accuracy >= 80) unlock("addition_master");
+  if (levelId === 15 && accuracy >= 80) unlock("multiplication_hero");
+  if (levelId === 20 && accuracy >= 80) unlock("fractions_wizard");
+  if (levelId === 25 && accuracy >= 80) unlock("puzzle_master");
+  if (Object.keys(state.completedLevels).length >= 35) unlock("crown_genius");
+}
+
+// ==================== 8. DAILY CHALLENGE TAB (STRICT ONCE-PER-DAY GLOBAL LOCK) ====================
+function renderDailyChallengeTab() {
+  const todayKey = getTodayKey();
+  const isCompletedToday = (state.dailyChallenge.lastCompletedDateKey === todayKey);
+
+  // If completed today, always lock to the grade in which today's challenge was answered!
+  const displayGradeNum = isCompletedToday && state.dailyChallenge.lockedGradeNumber
+    ? state.dailyChallenge.lockedGradeNumber
+    : state.selectedGrade;
+
+  const gradeObj = GRADES_INFO.find(g => g.num === displayGradeNum) || GRADES_INFO[0];
+  const problem = getDailyProblemForDate(todayKey, displayGradeNum);
+
+  return `
+    <div class="play-card" style="border-color:var(--play-green);background:var(--play-green-light);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-size:17px;font-weight:900;color:var(--play-green-dark);">🌟 تحدي اليوم الموحد (${todayKey})</div>
+          <div style="font-size:12px;color:var(--text-secondary);font-weight:700;">
+            متاح مرة واحدة فقط كل يوم لجميع الصفوف • المكافأة: +50 نقطة و 3 نجوم
+          </div>
+        </div>
+        <span class="stat-pill stars">🔥 سلسلة الإنجاز: ${fmtNum(state.dailyChallenge.streakDays)} أيام</span>
+      </div>
+    </div>
+
+    ${isCompletedToday ? `
+      <div class="play-card" style="background:#FEF3C7;border-color:#F59E0B;">
+        <div style="font-weight:900;color:#92400E;font-size:14px;">
+          🔒 تم إنجاز تحدي اليوم (${todayKey}) في (${gradeObj.name})
+        </div>
+        <div style="font-size:12px;color:#B45309;margin-top:4px;">
+          لتطبيق قواعد اللعب العادل، لا يمكن إعادة تفعيل تحدي اليوم أو تكرار النقاط بتغيير الصف الدراسي، وسيتجدد التحدي تلقائياً غداً إن شاء الله.
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="play-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <span style="font-weight:800;font-size:13px;color:var(--play-green);">${gradeObj.icon} ${gradeObj.name}</span>
+        ${!isCompletedToday ? `<button class="btn-outline" style="padding:4px 12px;font-size:12px;" onclick="switchMainTab('GRADES')">تغيير الصف 🎒</button>` : ''}
+      </div>
+
+      <div style="font-size:17px;font-weight:800;margin-bottom:10px;">${problem.qText}</div>
+      <div class="formula-box">${fmtNum(problem.formula)}</div>
+
+      <div style="font-size:13px;font-weight:800;color:var(--text-secondary);margin-bottom:10px;">
+        ${isCompletedToday ? 'إجابتك المسجلة لليوم:' : 'اختر الإجابة الصحيحة (تُقفل المحاولة بعد الاختيار لليوم):'}
+      </div>
+
+      ${problem.options.map(opt => {
+        let cls = "option-card";
+        if (isCompletedToday) {
+          if (opt === problem.correct) cls += " correct";
+          else if (opt === state.dailyChallenge.selectedOption) cls += " wrong";
+        }
+        return `
+          <button class="${cls}" ${isCompletedToday ? 'disabled' : ''} onclick="submitDailyAnswerOnce('${opt.replace(/'/g, "\\'")}')">
+            <span>${fmtNum(opt)}</span>
+            <span>${isCompletedToday && opt === problem.correct ? '✅ الإجابة الصحيحة' : (isCompletedToday && opt === state.dailyChallenge.selectedOption ? '✖ اختيارك' : '')}</span>
+          </button>
+        `;
+      }).join('')}
+
+      ${isCompletedToday ? `
+        <div style="margin-top:12px;padding:12px;border-radius:12px;background:var(--play-blue-light);color:var(--play-blue);font-size:13px;font-weight:700;">
+          💡 الشرح: ${problem.explanation}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function submitDailyAnswerOnce(selectedOpt) {
+  const todayKey = getTodayKey();
+  // STRICT GUARD: Never allow answering or adding points if already completed today!
+  if (state.dailyChallenge.lastCompletedDateKey === todayKey) {
+    showToast("تم إنجاز تحدي اليوم مسبقاً! يتجدد غداً 🔒");
+    return;
+  }
+
+  const problem = getDailyProblemForDate(todayKey, state.selectedGrade);
+  const isCorrect = (selectedOpt === problem.correct);
+
+  // Lock globally for today across ALL grades
+  state.dailyChallenge.lastCompletedDateKey = todayKey;
+  state.dailyChallenge.lockedGradeNumber = state.selectedGrade;
+  state.dailyChallenge.selectedOption = selectedOpt;
+  state.dailyChallenge.wasCorrect = isCorrect;
+
+  if (isCorrect) {
+    state.dailyChallenge.streakDays = (state.dailyChallenge.streakDays || 0) + 1;
+    state.totalScore += 50;
+    state.totalStars += 3;
+    showToast("ممتاز! إجابة صحيحة وحصلت على +50 نقطة و 3 نجوم 🌟");
+  } else {
+    showToast(`حظاً أوفر غداً! الإجابة الصحيحة هي: ${problem.correct}`);
+  }
+
+  saveState();
+  renderApp();
+}
+
+// ==================== 9. GRADES & ACHIEVEMENTS TABS ====================
+function selectGrade(num) {
+  state.selectedGrade = num;
+  saveState();
+  showToast(`تم اختيار الصف ${num}`);
+  renderApp();
+}
+
+function renderGradesTab() {
+  return `
+    <div class="section-header" style="margin-top:0;">
+      <div>
+        <div class="section-title">🎒 المستويات الدراسية (من الصف الأول إلى السابع)</div>
+        <div class="section-subtitle">اختر صفك الدراسي لضبط التحديات المناسبة</div>
+      </div>
+    </div>
+    ${GRADES_INFO.map(g => `
+      <div class="play-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;border-color:${g.num === state.selectedGrade ? 'var(--play-green)' : 'var(--border-color)'};">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="app-icon-tile" style="width:52px;height:52px;background:${g.color};">${g.icon}</div>
+          <div>
+            <div style="font-size:15px;font-weight:800;">${g.name}</div>
+            <div style="font-size:12px;color:var(--text-secondary);">${g.summary}</div>
+          </div>
+        </div>
+        <button class="btn-play" style="background:${g.num === state.selectedGrade ? 'var(--play-green-dark)' : 'var(--play-green)'};" onclick="selectGrade(${g.num})">
+          ${g.num === state.selectedGrade ? '✓ الصف الحالي' : 'اختيار'}
+        </button>
+      </div>
+    `).join('')}
+  `;
+}
+
+function renderAchievementsTab() {
+  return `
+    <div class="section-header" style="margin-top:0;">
+      <div>
+        <div class="section-title">🏆 خزانة الأوسمة والجوائز</div>
+        <div class="section-subtitle">الأوسمة المفتوحة: ${fmtNum(state.unlockedAchievements.length)} من ${fmtNum(ACHIEVEMENTS_LIST.length)}</div>
+      </div>
+    </div>
+    ${ACHIEVEMENTS_LIST.map(a => {
+      const unlocked = state.unlockedAchievements.includes(a.id);
+      return `
+        <div class="play-card" style="display:flex;align-items:center;gap:14px;opacity:${unlocked ? '1' : '0.6'};">
+          <div class="app-icon-tile" style="width:52px;height:52px;background:${unlocked ? '#FEF3C7' : '#E8EAED'};color:#B45309;">
+            ${unlocked ? a.icon : '🔒'}
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:800;">${a.title}${unlocked ? '✅' : ''}</div>
+            <div style="font-size:12px;color:var(--text-secondary);">${a.desc}</div>
+          </div>
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+// ==================== 10. SETTINGS & GITHUB APK DOCUMENTATION TAB ====================
+function renderDocsAndSettingsTab() {
+  return `
+    <div class="play-card">
+      <div style="font-size:16px;font-weight:900;margin-bottom:10px;color:var(--play-green-dark);">⚙️ إعدادات اللاعب والبطاقة التقديرية</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        <input type="text" id="playerNameInp" value="${state.playerName}" style="flex:1;padding:8px 12px;border:1px solid var(--border-color);border-radius:10px;font-weight:700;" placeholder="اسم البطل...">
+        <button class="btn-play" onclick="state.playerName=document.getElementById('playerNameInp').value||'بطل الرياضيات';saveState();renderApp();showToast('تم حفظ الاسم ✓');">حفظ الاسم</button>
+        <button class="btn-outline" onclick="state.useEasternDigits=!state.useEasternDigits;saveState();renderApp();">
+          الأرقام: ${state.useEasternDigits ? 'شرقية (١٢٣)' : 'قياسية (123)'}
+        </button>
+        <button class="btn-outline" onclick="window.print()">📄 طباعة شهادة التفوق PDF</button>
+      </div>
+    </div>
+
+    <div class="play-card">
+      <div style="font-size:16px;font-weight:900;color:var(--play-blue);margin-bottom:8px;">📋 ملخص التعديلات الهندسية المنفذة في هذا الإصدار</div>
+      <ul style="padding-right:18px;font-size:13px;line-height:1.9;color:var(--text-primary);">
+        <li><b>إصلاح جذري لمشكلة تحدي اليوم:</b> يُقفل التحدي اليومي عالمياً بمفتاح التاريخ (<code>YYYY-MM-DD</code>) بمجرد الإجابة، بحيث يعمل <b>مرة واحدة فقط في اليوم لجميع الصفوف</b>، ولا يتفعل مجدداً أو يضيف نقاطاً عند تغيير الصف والعودة إليه.</li>
+        <li><b>حذف "شرح وتدريب المهارة":</b> تم حذف شاشة الشرح (`TutorialScreen`) وأزرارها، ليبدأ التحدي مباشرةً وبسرعة.</li>
+        <li><b>حذف "المختبر التفاعلي وحقل الإدخال":</b> تم حذف شاشة المختبر التفاعلي (`InteractiveMathPracticeScreen`) وحقول الإدخال النصية بالكامل.</li>
+        <li><b>حذف "ملخص الإنجازات والرسوم البيانية":</b> تم حذف شاشة الملخص (`AchievementsSummaryScreen`) ومكونات الرسوم البيانية (`RechartsStyleChartComponents`).</li>
+        <li><b>تنظيف الملفات الزائدة:</b> تم حذف الملفات غير الضرورية (`DynamicQuestionGenerator.kt`، `questions_audit_dump.txt`، `SoundPlayer.kt`) والمكتبات الشبكية الثقيلة لتسريع التطبيق.</li>
+        <li><b>تصميم متجر Google Play الجديد:</b> واجهة تفاعلية سريعة الاستجابة بألوان متجر بلاي (`#01875F`) وشريط الفئات العلوي وشريط التنقل السفلي.</li>
+      </ul>
+    </div>
+  `;
+}
+
+// Start App
+loadState();
+renderApp();
+</script>
+</body>
+</html>
